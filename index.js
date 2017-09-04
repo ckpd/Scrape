@@ -23,16 +23,13 @@ var dailyJob = schedule.scheduleJob(rule, function(){
     let cheerio = require('cheerio');
 
     let base_url = 'http://nla.gd/winning-numbers/view/super_six/2017-06-03/2017-09-03/';
-    var count = 0;
 
     axios.get(base_url).then( (response) => {
       let $ = cheerio.load(response.data);
       let kurs = [];
 
       $('tr').each( (i, elm) => {
-        count++;
         kurs.push( {
-            count: count,
             metadata: {
                 Date: $(elm).children().first().text(),
                 winningNumbers: $(elm).children().eq(1).first().text(),
