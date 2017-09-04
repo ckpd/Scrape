@@ -8,6 +8,10 @@ var date = new Date();
 
 var app		= express();
 
+var port = process.env.PORT || 8081;
+
+
+
 var rule = new schedule.RecurrenceRule();
 
 rule.minute = new schedule.Range(0, 59, 60);
@@ -112,9 +116,7 @@ app.get('/scrape', function(req,res){
 //        })
 });
 	
-
-app.listen('8081');
-
-console.log('connected on port 8081');
-exports = module.exports = app;
+app.listen(port, function() {
+    console.log('Our app is running on http://localhost:' + port);
+});;
 
