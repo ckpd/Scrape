@@ -5,7 +5,6 @@ var cheerio 	= require('cheerio');
 let axios = require('axios');
 var schedule = require('node-schedule');
 var date = new Date();
-
 var app		= express();
 
 var port = process.env.PORT || 8081;
@@ -19,8 +18,6 @@ rule.minute = new schedule.Range(0, 59, 60);
 
 
 var dailyJob = schedule.scheduleJob(rule, function(){
-      let axios = require('axios');
-    let cheerio = require('cheerio');
 
     let base_url = 'http://nla.gd/winning-numbers/view/super_six/2017-06-03/2017-09-03/';
 
@@ -56,61 +53,58 @@ var dailyJob = schedule.scheduleJob(rule, function(){
 });
 
 
+var dailyJob = schedule.scheduleJob(rule, function(){
 
 
 
-app.get('/scrape', function(req,res){    
+    let base_url2 = 'http://www.nla.gd/winning-numbers/';
+
+    axios.get(base_url2).then( (response) => {
+      let $ = cheerio.load(response.data);
+      let kurs = [];
+        
+      $('div.side-module-1').each( (i, elm) => {
+        kurs.push( {
+            metadata: {
+                Date: $(elm).find('span').text().trim(),
+                winningNumbers: $(elm).find('div').first().text().trim(),
+                FTL: $(elm).find('div').eq(1).text().trim(),
+                DrawId: $(elm).find('h1').text().trim(),
+            
+          }
+            
+        });
+
+      });
+      return(kurs);
+
+    })
+    
+    .then ( (kurs) => {
+
+            fs.writeFile('allwinning.json', JSON.stringify(kurs, null, 2), function(err){
+                
+            console.log(kurs);
+
+        })  
+    });
+});
+
+
+
+app.get('/allwinning', function(req,res){    
   
         var obj = JSON.parse(fs.readFileSync('output.json', 'utf8',2));
         res.send(obj);
 
+});
 
-	//all web scraping magic will happen here
-//	url = "http://nla.gd/winning-numbers/view/super_six/2017-06-03/2017-09-03/";
-//    
-//    
-//        request(url, function(error, response, html){
-//  if (!error && response.statusCode == 200) {
-//  
-//            var $ = cheerio.load(html);
-//
-////            var gameTitle, prizeAmount, winningNumbers;
-////            var json = { gameTitle : "", prizeAmount : "", winningNumbers:""};
-////            $('.subpage-main-content-top-right-gamejackpot').filter(function(){
-////                var data = $(this);
-////                
-////                
-////                prizeAmount = data.children().first().text();
-////                
-////                json.prizeAmount = prizeAmount;
-////                
-////                
-////            
-////            });
-////            
-//            $('table.winning td').each(function(i, element){
-//                    var a = $(this);
-//                    var title = a.text();
-//                    var rank = "16-06-2017";
-//                       var metadata = {
-//                           rank: parseInt(rank),
-//                            title: title,
-////                            url: url,
-////                            points: parseInt(points),
-////                            username: username,
-////                            comments: parseInt(comments)
-//                          };
-//                console.log(metadata);
-//
-//            })
-//        }
-////    fs.writeFile('output.json', JSON.stringify(json, null, 4), function(err){
-////
-////        console.log('File successfully written! - Check your project directory for the output.json file');
-////
-////    })
-//    res.send('Check your console!')
-//        })
+
+app.get('/scrape', function(req,res){    
+  
+        var obj = JSON.parse(fs.readFileSync('allwinning.json', 'utf8',2));
+        res.send(obj);
+
 });
 	
 app.listen(port, function() {
