@@ -52,7 +52,6 @@ var dailyJob = schedule.scheduleJob(rule, function(){
 });
 
 
-var dailyJob2 = schedule.scheduleJob(rule, function(){
 
     let base_url2 = 'http://www.nla.gd/winning-numbers/';
 
@@ -83,7 +82,7 @@ var dailyJob2 = schedule.scheduleJob(rule, function(){
 
         })  
     });
-});
+
 
 
 
@@ -96,7 +95,6 @@ app.get('/allwinning', function(req,res){
 
 
 app.get('/scrape', function(req,res){    
-  
         var obj = JSON.parse(fs.readFileSync('allwinning.json', 'utf8',2));
         res.send(obj);
 
