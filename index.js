@@ -13,7 +13,7 @@ var port = process.env.PORT || 8081;
 
 var rule = new schedule.RecurrenceRule();
 
-rule.minute = new schedule.Range(0, 59, 60);
+rule.minute = new schedule.Range(0, 0, 60);
 
 
 
