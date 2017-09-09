@@ -13,8 +13,7 @@ var port = process.env.PORT || 8081;
 
 var rule = new schedule.RecurrenceRule();
 
-rule.minute = new schedule.Range(0, 0, 60);
-
+rule.minute = new schedule.Range(0, 60, 2);
 
 
 var dailyJob = schedule.scheduleJob(rule, function(){
@@ -52,6 +51,7 @@ var dailyJob = schedule.scheduleJob(rule, function(){
 });
 
 
+var dailyJob2 = schedule.scheduleJob(rule, function(){
 
     let base_url2 = 'http://www.nla.gd/winning-numbers/';
 
@@ -82,7 +82,7 @@ var dailyJob = schedule.scheduleJob(rule, function(){
 
         })  
     });
-
+});
 
 
 
@@ -95,6 +95,7 @@ app.get('/allwinning', function(req,res){
 
 
 app.get('/scrape', function(req,res){    
+  
         var obj = JSON.parse(fs.readFileSync('allwinning.json', 'utf8',2));
         res.send(obj);
 
