@@ -52,9 +52,7 @@ var dailyJob = schedule.scheduleJob(rule, function(){
 });
 
 
-var dailyJob = schedule.scheduleJob(rule, function(){
-
-
+var dailyJob2 = schedule.scheduleJob(rule, function(){
 
     let base_url2 = 'http://www.nla.gd/winning-numbers/';
 
