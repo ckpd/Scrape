@@ -42,8 +42,7 @@ var dailyJob = schedule.scheduleJob(rule, function(){
     })
     
     .then ( (kurs) => {
-                kurs.shift();
-
+            kurs.shift();
             fs.writeFile('output.json', JSON.stringify(kurs, null, 2), function(err){
                 
             console.log(kurs);
@@ -62,15 +61,13 @@ var dailyJob = schedule.scheduleJob(rule, function(){
     axios.get(base_url2).then( (response) => {
       let $ = cheerio.load(response.data);
       let kurs = [];
-        
       $('div.side-module-1').each( (i, elm) => {
         kurs.push( {
             metadata: {
                 Date: $(elm).find('span').text().trim(),
                 winningNumbers: $(elm).find('div').first().text().trim(),
                 FTL: $(elm).find('div').eq(1).text().trim(),
-                DrawId: $(elm).find('h1').text().trim(),
-            
+                DrawId: $(elm).find('h1').text().trim()
           }
             
         });
