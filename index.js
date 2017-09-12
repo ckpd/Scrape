@@ -42,7 +42,7 @@ var dailyJob = schedule.scheduleJob(rule, function(){
     
     .then ( (kurs) => {
             kurs.shift();
-            fs.writeFile('output.json', JSON.stringify(kurs, null, 2), function(err){
+            fs.writeFile('allwinning.json', JSON.stringify(kurs, null, 2), function(err){
                 
             console.log(kurs);
 
@@ -76,7 +76,7 @@ var dailyJob2 = schedule.scheduleJob(rule, function(){
     
     .then ( (kurs) => {
 
-            fs.writeFile('allwinning.json', JSON.stringify(kurs, null, 2), function(err){
+            fs.writeFile('today.json', JSON.stringify(kurs, null, 2), function(err){
                 
             console.log(kurs);
 
@@ -87,15 +87,15 @@ var dailyJob2 = schedule.scheduleJob(rule, function(){
 
 app.get('/allwinning', function(req,res){    
   
-        var obj = JSON.parse(fs.readFileSync('output.json', 'utf8',2));
+        var obj = JSON.parse(fs.readFileSync('allwinning.json', 'utf8',2));
         res.send(obj);
 
 });
 
 
-app.get('/scrape', function(req,res){    
+app.get('/', function(req,res){    
   
-        var obj = JSON.parse(fs.readFileSync('allwinning.json', 'utf8',2));
+        var obj = JSON.parse(fs.readFileSync('today.json', 'utf8',2));
         res.send(obj);
 
 });
