@@ -10,10 +10,10 @@ var app		= express();
 var port = process.env.PORT || 8081;
 
 
-
 var rule = new schedule.RecurrenceRule();
 
-rule.minute = new schedule.Range(0, 60, 50);
+
+rule.minute = new schedule.Range(0, 60, 5);
 
 
 var dailyJob = schedule.scheduleJob(rule, function(){
@@ -83,7 +83,6 @@ var dailyJob2 = schedule.scheduleJob(rule, function(){
         })  
     });
 });
-
 
 
 app.get('/allwinning', function(req,res){    
