@@ -13,7 +13,7 @@ var port = process.env.PORT || 8081;
 var rule = new schedule.RecurrenceRule();
 
 
-rule.minute = new schedule.Range(0, 60, 5);
+rule.minute = new schedule.Range(0, 60, 30);
 
 
 var dailyJob = schedule.scheduleJob(rule, function(){
